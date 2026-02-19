@@ -27,9 +27,7 @@ dotenv_path = SCRIPT_DIR / ".env"
 load_dotenv(dotenv_path=dotenv_path)
 
 MODEL_NAME = os.getenv("MODEL_NAME")
-DATASET_PATH = os.getenv("DATASET_PATH")
 OUTPUT_PATH = os.getenv("OUTPUT_PATH")
-MODEL_DIR = os.getenv("MODEL_PATH")
 CACHE_PATH = os.getenv("CACHE_PATH")
 EXPERIMENT_NAME = os.getenv("EXPERIMENT_NAME")
 TRAIN_PATH = os.getenv("TRAIN_PATH")
