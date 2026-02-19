@@ -16,9 +16,6 @@ dotenv_path = SCRIPT_DIR / ".env"
 load_dotenv(dotenv_path=dotenv_path)
 
 MODEL_NAME = os.getenv("MODEL_NAME")
-DATASET_PATH = os.getenv("DATASET_PATH")
-OUTPUT_PATH = os.getenv("OUTPUT_PATH")
-MODEL_PATH = os.getenv("MODEL_PATH")
 TRAIN_PATH = os.getenv("TRAIN_PATH")
 TEST_PATH = os.getenv("TEST_PATH")
 DEMO_PATH = os.getenv("DEMO_PATH")
@@ -33,9 +30,6 @@ MAX_LEN = 512
 if not all(
     [
         MODEL_NAME,
-        DATASET_PATH,
-        OUTPUT_PATH,
-        MODEL_PATH,
         TRAIN_PATH,
         TEST_PATH,
         DEMO_PATH,
@@ -50,9 +44,6 @@ if not all(
         var
         for var, val in {
             "MODEL_NAME": MODEL_NAME,
-            "DATASET_PATH": DATASET_PATH,
-            "OUTPUT_PATH": OUTPUT_PATH,
-            "MODEL_PATH": MODEL_PATH,
             "TRAIN_PATH": TRAIN_PATH,
             "TEST_PATH": TEST_PATH,
             "DEMO_PATH": DEMO_PATH,
@@ -105,8 +96,7 @@ class Positive_Unlabeled_Data_Split:
         df_merged_nc["timestamp"] = df_merged_nc["timestamp"].astype(str)
         cols = list(df_merged_nc.columns)[1:]
 
-        train_path = f"{OUTPUT_PATH}/{TRAIN_PATH}"
-        train_dataset = pd.read_parquet(train_path)
+        train_dataset = pd.read_parquet(TRAIN_PATH)
 
         mask = train_dataset["content"] == df_merged_nc["content"]
         train_dataset[cols] = df_merged_nc[cols].where(mask)

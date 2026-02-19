@@ -17,22 +17,20 @@ SCRIPT_DIR = Path(__file__).parent.resolve()
 dotenv_path = SCRIPT_DIR / ".env"
 load_dotenv(dotenv_path=dotenv_path)
 
+EXPERIMENT_NAME = os.getenv("EXPERIMENT_NAME")
 MODEL_NAME = os.getenv("MODEL_NAME")
-DATASET_DIR = os.getenv("DATASET_DIR")
-OUTPUT_DIR = os.getenv("OUTPUT_DIR")
-MODEL_DIR = os.getenv("MODEL_DIR")
+OUTPUT_PATH = os.getenv("OUTPUT_PATH")
 BATCH_SIZE = 2048
 SHAP_BATCH_SIZE = 2048
 MAX_LEN = 512
 
-if not all([MODEL_NAME, DATASET_DIR, OUTPUT_DIR, MODEL_DIR]):
+if not all([MODEL_NAME, OUTPUT_PATH, EXPERIMENT_NAME]):
     missing = [
         var
         for var, val in {
             "MODEL_NAME": MODEL_NAME,
-            "DATASET_DIR": DATASET_DIR,
-            "OUTPUT_DIR": OUTPUT_DIR,
-            "MODEL_DIR": MODEL_DIR,
+            "OUTPUT_PATH": OUTPUT_PATH,
+            "EXPERIMENT_NAME": EXPERIMENT_NAME,
         }.items()
         if not val
     ]
@@ -89,10 +87,10 @@ if __name__ == "__main__":
         model_name=MODEL_NAME, batch_size=BATCH_SIZE
     )
 
-    output_dir = OUTPUT_DIR
+    output_dir = f"{OUTPUT_PATH}/output_{MODEL_NAME}_{EXPERIMENT_NAME}"
 
     num_gpus = torch.cuda.device_count()
-    best_path = os.path.join(MODEL_DIR, "best_prevalence_model.pth")
+    best_path = os.path.join(output_dir, "best_prevalence_model.pth")
 
     # Split test data across GPUs
     print(len(all_data.final_test_dataset["content"]))
